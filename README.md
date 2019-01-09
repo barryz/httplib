@@ -1,5 +1,5 @@
 # httplib
-`httplib` is an libs help you to curl remote url.
+`httplib` is an libary help you to curl remote url.
 
 This lib forked from [beego-httplib](https://github.com/astaxie/beego/tree/develop/httplib), for using without any dependencies.
 
