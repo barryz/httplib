@@ -47,11 +47,11 @@ func SetDefaultSetting(setting HTTPSettings) {
 }
 
 // NewRequest return *HTTPRequest with specific method
-func NewRequest(rawurl, method string) *HTTPRequest {
+func NewRequest(rawurl, method string) (*HTTPRequest, error) {
 	var resp http.Response
 	u, err := url.Parse(rawurl)
 	if err != nil {
-		log.Println("Httplib:", err)
+		return nil, err
 	}
 	req := http.Request{
 		URL:        u,
@@ -68,31 +68,31 @@ func NewRequest(rawurl, method string) *HTTPRequest {
 		files:   map[string]string{},
 		setting: defaultSetting,
 		resp:    &resp,
-	}
+	}, nil
 }
 
 // Get returns *HTTPRequest with GET method.
-func Get(url string) *HTTPRequest {
+func Get(url string) (*HTTPRequest, error) {
 	return NewRequest(url, "GET")
 }
 
 // Post returns *HTTPRequest with POST method.
-func Post(url string) *HTTPRequest {
+func Post(url string) (*HTTPRequest, error) {
 	return NewRequest(url, "POST")
 }
 
 // Put returns *HTTPRequest with PUT method.
-func Put(url string) *HTTPRequest {
+func Put(url string) (*HTTPRequest, error) {
 	return NewRequest(url, "PUT")
 }
 
 // Delete returns *HTTPRequest DELETE method.
-func Delete(url string) *HTTPRequest {
+func Delete(url string) (*HTTPRequest, error) {
 	return NewRequest(url, "DELETE")
 }
 
 // Head returns *HTTPRequest with HEAD method.
-func Head(url string) *HTTPRequest {
+func Head(url string) (*HTTPRequest, error) {
 	return NewRequest(url, "HEAD")
 }
 
