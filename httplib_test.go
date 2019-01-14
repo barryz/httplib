@@ -9,10 +9,7 @@ import (
 )
 
 func TestResponse(t *testing.T) {
-	req, err := Get("http://httpbin.org/get")
-	if err != nil {
-		t.Fatal(err)
-	}
+	req := Get("http://httpbin.org/get")
 	resp, err := req.Response()
 	if err != nil {
 		t.Fatal(err)
@@ -21,10 +18,7 @@ func TestResponse(t *testing.T) {
 }
 
 func TestGet(t *testing.T) {
-	req, err := Get("http://httpbin.org/get")
-	if err != nil {
-		t.Fatal(err)
-	}
+	req := Get("http://httpbin.org/get")
 	b, err := req.Bytes()
 	if err != nil {
 		t.Fatal(err)
@@ -44,10 +38,7 @@ func TestGet(t *testing.T) {
 
 func TestSimplePost(t *testing.T) {
 	v := "smallfish"
-	req, err := Post("http://httpbin.org/post")
-	if err != nil {
-		t.Fatal(err)
-	}
+	req := Post("http://httpbin.org/post")
 	req.Param("username", v)
 
 	str, err := req.String()
@@ -82,11 +73,7 @@ func TestSimplePost(t *testing.T) {
 //}
 
 func TestSimplePut(t *testing.T) {
-	req, err := Put("http://httpbin.org/put")
-	if err != nil {
-		t.Fatal(err)
-	}
-	str, err := req.String()
+	str, err := Put("http://httpbin.org/put").String()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -94,11 +81,7 @@ func TestSimplePut(t *testing.T) {
 }
 
 func TestSimpleDelete(t *testing.T) {
-	req, err := Delete("http://httpbin.org/delete")
-	if err != nil {
-		t.Fatal(err)
-	}
-	str, err := req.String()
+	str, err := Delete("http://httpbin.org/delete").String()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -106,11 +89,7 @@ func TestSimpleDelete(t *testing.T) {
 }
 
 func TestSimpleDeleteParam(t *testing.T) {
-	req, err := Delete("http://httpbin.org/delete")
-	if err != nil {
-		t.Fatal(err)
-	}
-	str, err := req.Param("key", "val").String()
+	str, err := Delete("http://httpbin.org/delete").Param("key", "val").String()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -119,21 +98,13 @@ func TestSimpleDeleteParam(t *testing.T) {
 
 func TestWithCookie(t *testing.T) {
 	v := "smallfish"
-	req, err := Get("http://httpbin.org/cookies/set?k1=" + v)
-	if err != nil {
-		t.Fatal(err)
-	}
-	str, err := req.SetEnableCookie(true).String()
+	str, err := Get("http://httpbin.org/cookies/set?k1=" + v).SetEnableCookie(true).String()
 	if err != nil {
 		t.Fatal(err)
 	}
 	t.Log(str)
 
-	req, err = Get("http://httpbin.org/cookies")
-	if err != nil {
-		t.Fatal(err)
-	}
-	str, err = req.SetEnableCookie(true).String()
+	str, err = Get("http://httpbin.org/cookies").SetEnableCookie(true).String()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -146,11 +117,7 @@ func TestWithCookie(t *testing.T) {
 }
 
 func TestWithBasicAuth(t *testing.T) {
-	req, err := Get("http://httpbin.org/basic-auth/user/passwd")
-	if err != nil {
-		t.Fatal(err)
-	}
-	str, err := req.SetBasicAuth("user", "passwd").String()
+	str, err := Get("http://httpbin.org/basic-auth/user/passwd").SetBasicAuth("user", "passwd").String()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -163,11 +130,7 @@ func TestWithBasicAuth(t *testing.T) {
 
 func TestWithUserAgent(t *testing.T) {
 	v := "httplib"
-	req, err := Get("http://httpbin.org/headers")
-	if err != nil {
-		t.Fatal(err)
-	}
-	str, err := req.SetUserAgent(v).String()
+	str, err := Get("http://httpbin.org/headers").SetUserAgent(v).String()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -188,11 +151,7 @@ func TestWithSetting(t *testing.T) {
 	setting.ReadWriteTimeout = 5 * time.Second
 	SetDefaultSetting(setting)
 
-	req, err := Get("http://httpbin.org/get")
-	if err != nil {
-		t.Fatal(err)
-	}
-	str, err := req.String()
+	str, err := Get("http://httpbin.org/get").String()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -205,10 +164,7 @@ func TestWithSetting(t *testing.T) {
 }
 
 func TestToJson(t *testing.T) {
-	req, err := Get("http://httpbin.org/ip")
-	if err != nil {
-		t.Fatal(err)
-	}
+	req := Get("http://httpbin.org/ip")
 	resp, err := req.Response()
 	if err != nil {
 		t.Fatal(err)
@@ -233,11 +189,8 @@ func TestToJson(t *testing.T) {
 
 func TestToFile(t *testing.T) {
 	f := "httplib_testfile"
-	req, err := Get("http://httpbin.org/ip")
-	if err != nil {
-		t.Fatal(err)
-	}
-	err = req.ToFile(f)
+	req := Get("http://httpbin.org/ip")
+	err := req.ToFile(f)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -249,10 +202,7 @@ func TestToFile(t *testing.T) {
 }
 
 func TestHeader(t *testing.T) {
-	req, err := Get("http://httpbin.org/headers")
-	if err != nil {
-		t.Fatal(err)
-	}
+	req := Get("http://httpbin.org/headers")
 	req.Header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36")
 	str, err := req.String()
 	if err != nil {
